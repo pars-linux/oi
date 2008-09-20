@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load library %}
+
+{% block title %}{{ news.title }} - Haberler - {% endblock %}
+{% block extrahead %}
+<style media="screen" type="text/css">@import url('/media/css/new/article.css');</style>
+<style media="screen" type="text/css">@import url('/media/css/new/st.css');</style>
+{% if user.is_authenticated %}
+    <script language="javascript" type="text/javascript" src="/media/js/tinymce/tiny_mce.js"></script>
+    <script language="javascript" type="text/javascript" src="/media/js/tinymce/forum.js"></script>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+<div class="page_title">{{ news.title }}</div>
+<div class="page_content">
+{{ news.text|safe }}
+</div>
+<div style="clear: both;"></div>
+<div class="page_comments">
+    <a href="{{ news.topic.get_latest_post_url }}">{{ news.topic.posts|add:"-1" }} yorum</a> <a href="{{ news.topic.get_latest_post_url }}"><img src="/media/dijital/img/forum/msg_sim.gif" /></a>
+</div>
+
+{% if user.is_authenticated %}
+    {% if form %}
+    <p>
+        <form method="post" action="{{ news.topic.get_reply_url }}">
+            {{form}}
+            <br/>
+            <input type="submit" value="Gönder" />
+        </form>
+    </p>
+    {% endif %}
+{% endif %}
+<div class="page_printable"><a href="{{ news.get_printable_url }}"><img src="/media/img/print.png" alt="yazdır" title="yazıcı dostu görünüm" /></a></div>
+<div class="page_last_update">Son güncelleme: {{ news.update|timedelta }}</div>
+
+{% endblock %}
+
+{% block leftcolumn %}
+<div class="sidebarcolumn leftcolumn">
+    <h2>Etiketler</h2>
+    <p><img src="/media/img/new/tag.png" style="vertical-align: middle;" /> {% for tag in news.tags.all %}<a href="{{ tag.get_absolute_url }}">{{ tag.name }}</a>{% if forloop.last %}{% else %},{% endif %}{% endfor %}
+    </p>
+    <br />
+    <h2>Yazar</h2>
+    <p>{{ news.author }}</p>
+</div>
+{% endblock %}

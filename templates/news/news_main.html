@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load library %}
+{% block title %}Haberler - {% endblock %}
+{% block extrahead %}
+<style type="text/css" media="screen">@import url('/media/css/new/object_lists.css');</style>
+<style type="text/css" media="screen">@import url('/media/css/new/st.css');</style>
+<style type="text/css" media="screen">@import url('/media/css/new/paginator.css');</style>
+{% endblock %}
+{% block content %}
+<div class="summary_container">
+{% for news in news_list %}
+    <div class="column first">
+        <img src="{{ news.image.file.url }}" alt="{{ news.image.get_alt_string }}" /><br />
+        <img src="/media/img/new/image_bottom.png" alt="gölge" />
+        <div class="info"><span class="bold">{{ news.update|date:"d M" }}</span> {{ news.update|date:"Y" }} <span class="bold">/</span> <a href="{{ news.topic.get_latest_post_url }}"><span class="bold">{{ news.topic.posts|add:"-1" }}</span> Yorum</a></div>
+    </div>
+    <div class="column">
+        <div class="title"><a href="{{ news.get_absolute_url }}">{{ news.title }}</a></div>
+        <div class="summary">{{ news.sum|safe|truncatewords_html:23 }}</div>
+    </div>
+    <div class="{% cycle columnspacer, %}"></div>
+{% endfor %}
+</div>
+
+{% if is_paginated %}<div class="paginator_block"><div class"paginator_pages">{% paginator %}</div><div class="paginator_description"><span class="bold">{{ pages }}</span> sayfada toplam <span class="bold">{{ hits }}</span> haber bulunmaktadır.</div></div>{% endif %}
+{% endblock %}
+
+{% block sidebar %}
+{% if seminar %}
+<div class="sidebar_box">
+    <div class="sidebar_top">&nbsp;</div>
+    <div class="sidebar_middle">
+        <h2>Pardus Etkinlikleri</h2>
+        <ul class="sidebar_seminar">
+        {% for sem in seminar %}
+        <li>
+            <div style="padding-bottom: 4px;{% if not forloop.first %} padding-top: 4px; border-top: 1px solid;{% endif %}">
+            <strong class="gri">{{ sem.date|date:"d F Y" }}</strong><br/>
+            <span class="gri">{{ sem.description }}</span><br/>
+            <strong>Yer:</strong> <span class="gri">{{ sem.place.name }}</span><br/>
+            <strong>Konuşmacılar:</strong><span class="hri"> {% for att in sem.attender.all %}{% if forloop.last %}{{ att.name }}{% else %}{{ att.name }}, {% endif %}{% endfor %}</span>
+        </li>
+        {% endfor %}
+        </ul>
+    </div>
+    <div class="sidebar_bottom">&nbsp;</div>
+</div>
+{% endif %}
+{% endblock %}

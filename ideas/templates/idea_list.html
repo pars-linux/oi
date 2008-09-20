@@ -1,0 +1,26 @@
+{% extends "idea_base.html" %}
+{% load library %}
+
+{% block title %}Yeni Fikirler - {% endblock %}
+
+{% block extrahead %}
+<style type="text/css" media="screen">@import url('/media/css/new/brainstorm.css');</style>
+<script type="text/javascript" src="/media/js/jquery-1.2.6.min.js"></script>
+<script type="text/javascript" src="/media/js/brainstorm.js"></script>
+{% endblock %}
+
+{% block content %}
+<div id="idea_topbar"><span id="idea_list_title">{{ page_title }}</span>
+    <span id="idea_submit"><a href="/yenifikir/ekle/" title="Yeni Fikir Ekle"><img src="/media/img/new/ideas_submit.png" alt="submit idea" /></a></span>
+</div>
+{% block idea %}
+{% for idea in ideas %}
+<div class="idea_container">
+    {% include "idea_top.html" %}
+    </div><!-- for /idea_right -->
+
+    <div style="clear:both"></div>
+</div>
+{% endfor %}
+{% endblock %}
+{% endblock %}

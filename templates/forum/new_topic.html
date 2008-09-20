@@ -1,0 +1,31 @@
+{% extends "forum/forum_base.html" %}
+{% block extrahead %}
+<script language="javascript" type="text/javascript" src="/media/js/tinymce/tiny_mce.js"></script>
+<script language="javascript" type="text/javascript" src="/media/js/tinymce/forum.js"></script>
+{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="forum_address">
+    <div class="current_topic"><a href="/">Ana Sayfa</a> &#62; <a href="/forum/">Forum</a> &#62; <a href="{{ forum.get_absolute_url }}">{{ forum.name }}</a> &#62; Yeni Konu</div>
+</div>
+{% if form.errors %}
+<font color="red">Başlık açılamadı, lütfen aşağıdaki hataları düzeltin</font><br />
+{% endif %}
+
+{% if flood %}<font color="red">Flood koruması aktif, lütfen {{ timeout }} saniye bekleyin.</font>{% endif %}
+<form action="" method="post">
+<dl>
+{% for field in form %}
+    <dt>{{ field.label_tag }}</dt>
+    <dd>{{ field }}</dd>
+    {% if field.help_text %}<dd>{{ field.help_text }}</dd>{% endif %}
+    {% if field.errors %}<dd class="myerrors" style="font-color: red">{{ field.errors }}</dd>{% endif %}
+{% endfor %}
+</dl>
+<input type="submit" value="Konu Aç">
+</form>
+{% else %}
+<p>Başlık açmak için oturum açmanız gerekiyor.</p>
+{% endif %}
+{% endblock %}
