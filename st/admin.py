@@ -28,10 +28,7 @@ class ArticleAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ("title",)}
 
     class Media:
-        js = ("js/tinymce/tiny_mce.js", "js/tinymce/textareas.js", "js/jquery-1.2.6.min.js", "js/adminimages.js", "js/jquery.autocomplete.js", "js/taghelper.js")
-        css = {
-            "all": ("css/new/autocomplete.css",),
-        }
+        js = ("js/tinymce/tiny_mce.js", "js/tinymce/textareas.js",)
 
 class FSAdmin(ArticleAdmin):
     fieldsets = (

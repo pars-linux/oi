@@ -1,11 +1,12 @@
 {% extends "bug/bug_main.html" %}
-{% block title %}Hata Raporları - #{{ bug.id }} - {% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Bug Reports" %} - #{{ bug.id }} - {% endblock %}
 {% block extrahead %}
     <style type="text/css" media="screen">@import url('/media/css/new/bug.css');</style>
 {% endblock %}
 {% block content %}
 <div class="topbar">
-    <div class="navigation"><a href="/">Ana Sayfa</a> &#62; <a href="/hata/">Hata</a> &#62; <a href="{{ bug.get_absolute_url }}" class="bold">#{{ bug.id }}</a></div>
+    <div class="navigation"><a href="/">{% trans "Mainpage" %}</a> &#62; <a href="/hata/">{% trans "Bug" %}</a> &#62; <a href="{{ bug.get_absolute_url }}" class="bold">#{{ bug.id }}</a></div>
 </div>
 <div class="headerbar"><div class="title">#{{ bug.id }} {{ bug.title }}</div></div>
 {% if request.user.is_staff %}
@@ -13,10 +14,13 @@
 <form action="/hata/degistir/{{ bug.id }}/" method="post" class="bugform">
 <dl>
 {% for field in bugform %}
-    {% include "formfields.html" %}
+    <dt>{{ field.label_tag }}</dt>
+    <dd>{{ field }}</dd>
+    {% if field.help_text %}<dd>{{ field.help_text }}</dd>{% endif %}
+    {% if field.errors %}<dd class="myerrors" style="font-color: red">{{ field.errors }}</dd>{% endif %}
 {% endfor %}
 </dl>
-<input type="submit" value="Değiştir" />
+<input type="submit" value="{% trans "Change" %}" />
 </form>
 </div>
 {% else %}
@@ -47,9 +51,14 @@
 {% if request.user.is_authenticated %}
 <div class="bug_detail_comment">
 <form action="" method="post" class="bugform">
+<dl>
 {% for field in form %}
-    {% include "formfields.html" %}
+    <dt>{{ field.label_tag }}</dt>
+    <dd>{{ field }}</dd>
+    {% if field.help_text %}<dd>{{ field.help_text }}</dd>{% endif %}
+    {% if field.errors %}<dd class="myerrors" style="font-color: red">{{ field.errors }}</dd>{% endif %}
 {% endfor %}
+</dl>
 <input type="submit" value="Yorum Ekle" />
 </form>
 </div>

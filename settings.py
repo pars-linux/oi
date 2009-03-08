@@ -70,6 +70,7 @@ MEDIA_ROOT = '%s/media/' % DOCUMENT_ROOT
 MEDIA_URL = '%s/media/' % WEB_URL
 ADMIN_MEDIA_PREFIX = '%s/media/' % WEB_URL
 WEBALIZER_DIR = ''
+FORCE_SCRIPT_NAME = ''
 
 SECRET_KEY = 'n9-*x3!&!(x*z_!13)cyxil4fh+ov_+3!y($&4t7iit=)d)=93'
 
@@ -110,7 +111,6 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.sites',
     'django.contrib.humanize',
-    'django.contrib.sitemaps',
     'oi.flatpages',
     'oi.st',
     'oi.upload',
@@ -129,7 +129,6 @@ INSTALLED_APPS = (
     'oi.ideas',
     'oi.ezine',
     'oi.webalizer',
-    'oi.editor',
 )
 
 CITY_LIST = (

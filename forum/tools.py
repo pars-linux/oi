@@ -7,7 +7,6 @@
 
 from django.shortcuts import get_object_or_404
 from django.contrib.auth.models import User
-from django.contrib.sitemaps import ping_google
 
 from oi.forum.models import Forum, Topic, Post
 from oi.middleware import threadlocals
@@ -60,10 +59,3 @@ def create_forum_topic(article, forum_name):
         post.hidden = not article.status
         post.created = post.edited = article.update
         post.save()
-    if article.status:
-        try:
-            ping_google()
-        # we're catching SitemapNotFound exception
-        # no need to import this exception class since there is only 1 exception in the function.
-        except:
-            pass
